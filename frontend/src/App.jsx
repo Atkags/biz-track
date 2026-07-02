@@ -1,29 +1,33 @@
 import { useState, useEffect } from "react";
 
 function App(){
-
-  console.log('App rendered');
-  const[message, setMessage] = useState("Loading...");
+  const[products, setProducts] = useState([]);
 
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/api/health/").
+    fetch("http://127.0.0.1:8000/api/products/").
     then((response) => response.json()).
     then((data) => {
-      setMessage(data.message);
+      setProducts(data);
     })
     .catch(() => {
-      setMessage("Could not connect to backend");
+      setProducts("Could not connect to backend");
     });
   }, []);
 
   return(
     <div>
       <h1>
-        BizTrack
+        Products
       </h1>
-      <p>
-        {message}
-      </p>
+      <ul>
+        {products.map((product) => (
+          <li key = {product.id}>
+            <strong>
+              {product.name} {product.description} {product.price} {product.stock_quantity} {product.image} {product.is_active}
+            </strong>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
