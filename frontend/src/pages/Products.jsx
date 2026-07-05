@@ -213,7 +213,11 @@ function Products(){
       <ul>
         {products.map((product) => (
           <li key = {product.id}>
-            <img src={product.image} alt={product.name} />
+            <img
+              src={product.image}
+              alt={product.name}
+              width="100"
+            />
             <strong>
               {product.name} <br /> {product.description} <br /> {product.price} <br /> {product.stock_quantity} <br /> {product.is_active}
             </strong>
