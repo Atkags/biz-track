@@ -4,14 +4,25 @@ import Sales from "./pages/Sales";
 import SaleHistory from './pages/SaleHistory';
 import Dashboard from './pages/Dashboard';
 import Login from './pages/Login';
+import Purchases from './pages/Purchases';
 import ProtectedRoute from "./components/ProtectedRoute"
+import PurchasesHistory from './pages/PurchasesHistory';
 
 function App(){
   return(
     <BrowserRouter>
       <Routes>
         <Route path="/login" element={<Login />} />
-
+        <Route path="/purchases-history" element={
+          <ProtectedRoute>
+            <PurchasesHistory />
+          </ProtectedRoute>
+        } />
+        <Route path='/purchases' element={
+          <ProtectedRoute>
+            <Purchases />
+          </ProtectedRoute>
+        } />
         <Route path="/" element={
           <ProtectedRoute>
             <Dashboard />

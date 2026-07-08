@@ -31,6 +31,7 @@ urlpatterns = [
     path('api/', include('dashboard.urls')),
     path("api/login/", TokenObtainPairView.as_view()),
     path("api/refresh/", TokenRefreshView.as_view()),
+    path("api/", include("purchases.urls")),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

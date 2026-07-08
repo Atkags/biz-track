@@ -42,6 +42,7 @@ function Sales() {
     if (existingItem) {
       setSaleItems(
         saleItems.map((item) =>
+  
           item.product === product.id
             ? {
                 ...item,
