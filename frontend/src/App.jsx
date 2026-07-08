@@ -5,14 +5,21 @@ import SaleHistory from './pages/SaleHistory';
 import Dashboard from './pages/Dashboard';
 import Login from './pages/Login';
 import Purchases from './pages/Purchases';
-import ProtectedRoute from "./components/ProtectedRoute"
+import ProtectedRoute from "./components/ProtectedRoute";
 import PurchasesHistory from './pages/PurchasesHistory';
+import Reports from './pages/Reports';
 
 function App(){
   return(
     <BrowserRouter>
       <Routes>
         <Route path="/login" element={<Login />} />
+        <Route path="/reports" element={
+          <ProtectedRoute>
+            <Reports />
+          </ProtectedRoute>
+        } 
+        />
         <Route path="/purchases-history" element={
           <ProtectedRoute>
             <PurchasesHistory />
