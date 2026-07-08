@@ -2,14 +2,17 @@ from rest_framework import serializers
 from .models import Sale, SaleItem
 from django.db import transaction
 
-class SaleItemSerializer(serializers.ModelSerializer):
+class SaleItemCreateSerializer(serializers.ModelSerializer):
   class Meta:
     model = SaleItem
-    fields = '__all__'
+    fields = [
+      "product",
+      "quantity",
+    ]
 
-class SaleSerializer(serializers.ModelSerializer):
+class SaleCreateSerializer(serializers.ModelSerializer):
 
-  sale_items = SaleItemSerializer(source='items', many=True)
+  sale_items = SaleItemCreateSerializer(source='items', many=True)
 
   class Meta:
     model = Sale
@@ -20,38 +23,76 @@ class SaleSerializer(serializers.ModelSerializer):
     "sale_items",
     ]
 
-    @transaction.atomic
-    def create(self, validated_data):
-      items_data = validated_data.pop("items")
+    read_only_fields = [
+      "id",
+      "created_at",
+      "total_amount",
+    ]
 
-      sale = Sale.objects.create(**validated_data)
+  @transaction.atomic
+  def create(self, validated_data):
+    items_data = validated_data.pop("items")
 
-      total_amount = 0
+    sale = Sale.objects.create(**validated_data)
 
-      for item in items_data:
-        product = item["product"]
-        unit_price = product.price
-        quantity = item["quantity"]
-        line_total = quantity * unit_price
+    total_amount = 0
 
-        SaleItem.objects.create(
-          sale=sale,
-          product=product,
-          quantity=quantity,
-          unit_price=unit_price,
-          line_total=line_total,
-        )
+    for item in items_data:
+      product = item["product"]
+      unit_price = product.price
+      quantity = item["quantity"]
+      
+      if quantity > product.stock_quantity:
+        raise serializers.ValidationError(
+          f"Not enough stock for {product.name}"
+      )
 
-        if quantity > product.stock_quantity:
-          raise serializers.ValidationError(
-            f"Not enough stock for {product.name}"
-          )
-        product.stock_quantity -= quantity
-        product.save()
+      
+      line_total = quantity * unit_price
 
-        total_amount += line_total
+      SaleItem.objects.create(
+        sale=sale,
+        product=product,
+        quantity=quantity,
+        unit_price=unit_price,
+        line_total=line_total,
+      )
 
-        sale.total_amount = total_amount
-        sale.save()
+      
+      product.stock_quantity -= quantity
+      product.save()
 
-        return sale
+      total_amount += line_total
+
+    sale.total_amount = total_amount
+    sale.save()
+
+    return sale
+  
+class SaleItemSerializer(serializers.ModelSerializer):
+  product_name = serializers.CharField(
+    source="product.name",
+    read_only=True
+  )
+  class Meta:
+    model = SaleItem
+    fields = [
+      "id",
+      "product",
+      "product_name",
+      "quantity",
+      "unit_price",
+      "line_total",
+    ]
+
+class SaleSerializer(serializers.ModelSerializer):
+  sale_items = SaleItemSerializer(source='items', many=True)
+
+  class Meta:
+    model = Sale
+    fields = [
+      "id",
+      "created_at",
+      "total_amount",
+      "sale_items",
+    ]

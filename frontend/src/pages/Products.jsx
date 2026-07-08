@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { authFetch } from "../utils/auth"
 
 function Products(){
   const[products, setProducts] = useState([]);
@@ -18,10 +19,18 @@ function Products(){
   }, []);
 
   function fetchProducts(){
-    fetch("http://127.0.0.1:8000/api/products/", {
-      method: 'GET'
+    authFetch("http://127.0.0.1:8000/api/products/", {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("access")}`,
+      },
     }).
-    then((response) => response.json()).
+    then(response => {
+      if(!response.ok){
+        throw new Error(`HTTP Error! Status: ${response.status}`);
+      }
+      return response.json();
+    }).
     then((data) => {
       setProducts(data);
     })
@@ -52,9 +61,12 @@ function Products(){
 
     const method = editingId ? "PUT" : "POST";
 
-    fetch(url, {
+    authFetch(url, {
       method: method,
       body: data,
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("access")}`,
+      },
     }).then(response => {
       if(!response.ok){
         throw new Error(`HTTP Error! Status: ${response.status}`);
@@ -110,10 +122,11 @@ function Products(){
       is_active: newStatus,
     }
 
-    fetch(`http://127.0.0.1:8000/api/products/${product.id}/`,{
+    authFetch(`http://127.0.0.1:8000/api/products/${product.id}/`,{
       method: 'PATCH',
       headers: {
-        "Content-Type": "application/json"
+        Authorization: `Bearer ${localStorage.getItem("access")}`,
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(data),
     }).then(response => {
