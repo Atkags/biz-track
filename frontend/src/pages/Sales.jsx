@@ -140,64 +140,95 @@ function removeItem(productId) {
 
   return (
     <Layout>
-      <h1>Sales</h1>
+      <div className="page-header">
+        <div>
+          <h1 className="page-title">Sales</h1>
+          <p className="page-subtitle">Create quick sales and review the current order before checkout.</p>
+        </div>
+      </div>
 
-      {error && <p style={{ color: "red" }}>{error}</p>}
+      {error && <p className="error-text">{error}</p>}
 
-      <input
-        type="text"
-        placeholder="Search Product"
-        value={searchQuery}
-        onChange={(e) => setSearchQuery(e.target.value)}
-      />
+      <div className="panel-grid">
+        <div className="panel-card">
+          <div className="section-header">
+            <h2 className="section-title">Catalog</h2>
+            <span className="section-badge">{filteredItems.length} items</span>
+          </div>
 
-      <ul>
-        {filteredItems.length > 0 ? (
-          filteredItems.map((product) => (
-            <li
-              key={product.id}
-              onClick={() => addItem(product)}
-              style={{ cursor: "pointer" }}
-            >
-              <strong>{product.name}</strong> - ${product.price}
-            </li>
-          ))
-        ) : (
-          <li style={{ color: "red", fontStyle: "italic" }}>
-            No products found
-          </li>
-        )}
-      </ul>
+          <div className="field-group">
+            <label className="field-label">Search products</label>
+            <input
+              className="field-input search-input"
+              type="text"
+              placeholder="Search Product"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+          </div>
 
-      <h2>Current Sale</h2>
+          <ul className="data-list" style={{ marginTop: "12px" }}>
+            {filteredItems.length > 0 ? (
+              filteredItems.map((product) => (
+                <li
+                  key={product.id}
+                  onClick={() => addItem(product)}
+                  style={{ cursor: "pointer" }}
+                >
+                  <div className="list-main">
+                    <div className="list-title">{product.name}</div>
+                    <div className="list-meta">${product.price}</div>
+                  </div>
+                  <span className="section-badge">Add</span>
+                </li>
+              ))
+            ) : (
+              <li className="empty-state">No products found</li>
+            )}
+          </ul>
+        </div>
 
-        <ul>
-          {saleItems.map((item) => (
-            <li key={item.product}>
-              <strong>{item.name}</strong>
+        <div className="panel-card">
+          <div className="section-header">
+            <h2 className="section-title">Current Sale</h2>
+            <span className="section-badge">{saleItems.length} items</span>
+          </div>
 
-              <button onClick={() => decreaseQuantity(item.product)}>
-                -
-              </button>
+          <ul className="data-list">
+            {saleItems.map((item) => (
+              <li key={item.product}>
+                <div className="list-main">
+                  <div className="list-title">{item.name}</div>
+                  <div className="list-meta">${(item.quantity * item.unit_price).toFixed(2)}</div>
+                </div>
+                <div className="item-actions">
+                  <button className="btn btn-secondary" onClick={() => decreaseQuantity(item.product)}>
+                    -
+                  </button>
+                  <span className="quantity-pill">{item.quantity}</span>
+                  <button className="btn btn-secondary" onClick={() => increaseQuantity(item.product)}>
+                    +
+                  </button>
+                  <button className="btn btn-danger" onClick={() => removeItem(item.product)}>
+                    Remove
+                  </button>
+                </div>
+              </li>
+            ))}
+          </ul>
 
-              <span> {item.quantity} </span>
+          <div className="total-card" style={{ marginTop: "16px" }}>
+            <span>Total</span>
+            <span>${total.toFixed(2)}</span>
+          </div>
 
-              <button onClick={() => increaseQuantity(item.product)}>
-                +
-              </button>
-
-              <button onClick={() => removeItem(item.product)}>
-                Remove
-              </button>
-
-              {" "} - ${(item.quantity * item.unit_price).toFixed(2)}
-            </li>
-          ))}
-        </ul>
-        <h3>Total: ${total.toFixed(2)}</h3>
-        <button onClick={completeSale}>
-          Complete Sale
-        </button>
+          <div className="form-actions" style={{ marginTop: "16px" }}>
+            <button className="btn btn-primary" onClick={completeSale}>
+              Complete Sale
+            </button>
+          </div>
+        </div>
+      </div>
     </Layout>
   );
 }

@@ -1,36 +1,40 @@
-.sidebar h2{
-    margin-bottom:40px;
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 }
 
-.sidebar a{
-
-    padding:15px;
-
-    border-radius:10px;
-
-    margin-bottom:8px;
-
-    transition:.2s;
+.sidebar h2 {
+    margin-bottom: 28px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
 }
 
-.sidebar a:hover{
-
-    background: rgb(146, 146, 206);
-
+.sidebar a {
+    padding: 12px 14px;
+    border-radius: 8px;
+    margin-bottom: 6px;
+    transition: background 0.2s ease, color 0.2s ease;
+    color: #374151;
+    font-size: 0.95rem;
 }
 
-.sidebar button{
+.sidebar a:hover {
+    background: #eff6ff;
+    color: #2563eb;
+}
 
-    margin-top: auto;
+.sidebar button {
+    margin-top: 12px;
+    padding: 12px 14px;
+    border: 1px solid #fecaca;
+    background: #fef2f2;
+    color: #b91c1c;
+    border-radius: 8px;
+    font-weight: 600;
+}
 
-    padding:15px;
-
-    border:none;
-
-    background:#ef4444;
-
-    color:white;
-
-    border-radius:10px;
-
+.sidebar button:hover {
+    background: #fee2e2;
 }

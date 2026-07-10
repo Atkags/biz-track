@@ -145,105 +145,128 @@ function Products(){
   
   return(
     <Layout>
-        <form onSubmit={handleSubmit}>
+      <div className="page-header">
+        <div>
+          <h1 className="page-title">Products</h1>
+          <p className="page-subtitle">Manage inventory, pricing, and product availability in one place.</p>
+        </div>
+      </div>
 
-          <label>
-            Product Name:
-          </label>
-          <input type="text" placeholder="Product Name" value={formData.name} onChange={(e) =>
+      <div className="panel-grid">
+        <form className="panel-card form-grid" onSubmit={handleSubmit}>
+          <div className="section-header">
+            <h2 className="section-title">{editingId ? "Edit Product" : "Add Product"}</h2>
+            <span className="section-badge">{editingId ? "Editing" : "New entry"}</span>
+          </div>
+
+          <div className="field-group">
+            <label className="field-label">Product Name</label>
+            <input className="field-input" type="text" placeholder="Product Name" value={formData.name} onChange={(e) =>
+              setFormData({
+                ...formData,
+                name: e.target.value,
+              })
+            } required />
+          </div>
+
+          <div className="field-group">
+            <label className="field-label">Description</label>
+            <textarea className="field-textarea" value={formData.description} placeholder="Product Description" onChange={(e) =>
+              setFormData({
+                ...formData,
+                description: e.target.value,
+              })
+            }></textarea>
+          </div>
+
+          <div className="field-group">
+            <label className="field-label">Price</label>
+            <input className="field-input" type="number" step="0.01" min="0.00" max="99999999.99" value={formData.price} placeholder="0.00" onChange={(e) =>
+              setFormData({
+                ...formData,
+                price: e.target.value,
+              })
+            } required />
+          </div>
+
+          <div className="field-group">
+            <label className="field-label">Stock Quantity</label>
+            <input className="field-input" type="number" min="0" max="10000000" value={formData.stock_quantity} placeholder="0" onChange={(e) =>
+              setFormData({
+                ...formData,
+                stock_quantity: e.target.value,
+              })
+            } />
+          </div>
+
+          <div className="field-group">
+            <label className="field-label">Product Image</label>
+            <input className="field-input" type="file" accept="image/jpg, image/jpeg, image/webp" onChange={(e) => 
             setFormData({
               ...formData,
-              name: e.target.value,
+              image: e.target.files[0],
             })
-          } required>
-          </input>
+            } />
+          </div>
 
-          <label>
-            Description:
+          <label className="checkbox-row">
+            <input type="checkbox" checked={formData.is_active} onChange={(e) =>
+              setFormData({
+                ...formData,
+                is_active: e.target.checked,
+              })
+            } />
+            <span>Is Product Active</span>
           </label>
-          <textarea value={formData.description} placeholder="Product Desciption" onChange={(e) =>
-            setFormData({
-              ...formData,
-              description: e.target.value,
-            })
-          }>
-          </textarea>
 
-          <label>
-            Price:
-          </label>
-          <input type="number" step="0.01" min="0.00" max="99999999.99" value={formData.price} placeholder="0.00" onChange={(e) =>
-            setFormData({
-              ...formData,
-              price: e.target.value,
-            })
-          } required>
-          </input>
-
-          <label>
-            Stock Quantity:
-          </label>
-          <input type="number" min="0" max="10000000" value={formData.stock_quantity}placeholder="0" onChange={(e) =>
-            setFormData({
-              ...formData,
-              stock_quantity: e.target.value,
-            })
-          }>
-          </input>
-
-          <label>
-            Product Image:
-          </label>
-          <input type="file" accept="image/jpg, image/jpeg, image/webp" onChange={(e) => 
-          setFormData({
-            ...formData,
-            image: e.target.files[0],
-          })
-          }>
-          </input>
-
-          <label>
-          <input type="checkbox" checked={formData.is_active} onChange={(e) =>
-            setFormData({
-              ...formData,
-              is_active: e.target.checked,
-            })
-          }>
-          </input>
-          Is Product Active
-          </label>
-          <button type="submit">
-            {editingId ? "Update Product" : "Add Product"}
-          </button>
-          {editingId && (
-            <button type="button" onClick={handleCancel}>
-              Cancel
+          <div className="form-actions">
+            <button className="btn btn-primary" type="submit">
+              {editingId ? "Update Product" : "Add Product"}
             </button>
-          )}
+            {editingId && (
+              <button className="btn btn-secondary" type="button" onClick={handleCancel}>
+                Cancel
+              </button>
+            )}
+          </div>
         </form>
-      <h1>
-        Products
-      </h1>
-      <ul>
-        {products.map((product) => (
-          <li key = {product.id}>
-            <img
-              src={product.image}
-              alt={product.name}
-              width="100"
-            />
-            <strong>
-              {product.name} <br /> {product.description} <br /> {product.price} <br /> {product.stock_quantity} <br /> {product.is_active}
-            </strong>
-            <button onClick={() => handleEdit(product)}>
-              Edit
-            </button>
-            <button onClick={() => handleActive(product)}>
-              {product.is_active ? "Deactivate" : "Activate"}
-            </button>
-          </li>
-        ))}
-      </ul>
+
+        <div className="data-card">
+          <div className="section-header" style={{ padding: "16px 16px 0" }}>
+            <h2 className="section-title">Inventory</h2>
+            <span className="section-badge">{products.length} products</span>
+          </div>
+
+          <ul className="data-list">
+            {products.map((product) => (
+              <li key={product.id}>
+                <div className="list-main" style={{ flexDirection: "row", alignItems: "center", gap: "12px" }}>
+                  {product.image ? (
+                    <img className="product-thumb" src={product.image} alt={product.name} />
+                  ) : (
+                    <div className="product-thumb" style={{ display: "flex", alignItems: "center", justifyContent: "center", color: "#9ca3af" }}>IMG</div>
+                  )}
+                  <div className="list-main">
+                    <div className="list-title">{product.name}</div>
+                    <div className="list-meta">{product.description || "No description provided"}</div>
+                    <div className="list-meta">${product.price} • Stock {product.stock_quantity} • {product.is_active ? "Active" : "Inactive"}</div>
+                  </div>
+                </div>
+                <div className="item-actions">
+                  <button className="btn btn-secondary" onClick={() => handleEdit(product)}>
+                    Edit
+                  </button>
+                  <button className={`btn ${product.is_active ? "btn-danger" : "btn-primary"}`} onClick={() => handleActive(product)}>
+                    {product.is_active ? "Deactivate" : "Activate"}
+                  </button>
+                </div>
+              </li>
+            ))}
+          </ul>
+
+          {!products.length && <div className="empty-state">No products yet.</div>}
+        </div>
+      </div>
     </Layout>
   );
 }

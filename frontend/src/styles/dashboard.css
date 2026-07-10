@@ -73,3 +73,41 @@
     gap:20px;
 
 }
+
+.dashboard-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.dashboard-table th,
+.dashboard-table td {
+    text-align: left;
+    padding: 12px 10px;
+    border-bottom: 1px solid #e5e7eb;
+    vertical-align: top;
+}
+
+.dashboard-table th {
+    font-size: 0.9rem;
+    color: #6b7280;
+    font-weight: 600;
+}
+
+.sale-items-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.sale-item-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    font-size: 0.9rem;
+    color: #374151;
+}
+
+.sale-item-row span:first-child {
+    font-weight: 600;
+    flex: 1;
+}

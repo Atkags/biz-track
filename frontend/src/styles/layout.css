@@ -1,36 +1,57 @@
-.layout{
+.layout {
     display: flex;
     min-height: 100vh;
     padding: 20px;
     gap: 20px;
+    background: #f3f4f6;
 }
 
 .page{
-    flex:1;
-    display:flex;
-    flex-direction:column;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
 }
 
-main{
+main.main-content {
     flex: 1;
-    padding:30px;
-    background: white;
+    padding: 24px;
+    background: #f3f4f6;
     margin-top: 20px;
-    border: 1px solid #e5e7eb;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
-    border-radius: 6px;
+    border-radius: 8px;
 }
 
-.content{
+.content {
     flex: 1;
-    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
 }
 
-.sidebar{
+
+/* 1. Structural wrapper: keeps the sidebar width fixed */
+.sidebar-wrapper {
+    box-sizing: border-box;
+    flex: 0 0 250px;
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+    background: #ffffff;
+    box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.08),
+                0 2px 8px -1px rgba(15, 23, 42, 0.04);
+    overflow: hidden;
+}
+
+/* 2. Visual card: handles the inner spacing without carrying the shadow */
+.sidebar-header {
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
     padding: 20px;
-    color:black;
-    display:flex;
-    flex-direction:column;
-    background: white;
-    border-radius:6px;
+    color: #111827;
+    background: #ffffff;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    z-index: 1;
 }

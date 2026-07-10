@@ -135,80 +135,117 @@ function Purchases() {
 
   return(
     <Layout>
-      <select
-        value={selectedSupplier}
-        onChange={(e) => setSelectedSupplier(e.target.value)}
-      >
-        <option value="">Select Supplier</option>
+      <div className="page-header">
+        <div>
+          <h1 className="page-title">Purchases</h1>
+          <p className="page-subtitle">Record new purchases and manage supplier orders efficiently.</p>
+        </div>
+      </div>
 
-        {suppliers.map((supplier) => (
-          <option key={supplier.id} value={supplier.id}>
-            {supplier.name}
-          </option>
-        ))}
-      </select>
+      <div className="panel-grid">
+        <div className="panel-card">
+          <div className="section-header">
+            <h2 className="section-title">Supplier & Products</h2>
+            <span className="section-badge">{filteredProducts.length} products</span>
+          </div>
 
-      <input
-        type="text"
-        placeholder="Search Product"
-        value={searchQuery}
-        onChange={(e) => setSearchQuery(e.target.value)}
-      />
+          <div className="field-group">
+            <label className="field-label">Select Supplier</label>
+            <select
+              className="field-select"
+              value={selectedSupplier}
+              onChange={(e) => setSelectedSupplier(e.target.value)}
+            >
+              <option value="">Select Supplier</option>
 
-      <ul>
-        {filteredProducts.map((product) => (
-          <li
-            key={product.id}
-            onClick={() => addItem(product)}
-            style={{ cursor: "pointer" }}
-          >
-            <strong>{product.name}</strong>
-            {" - $"}
-            {product.price}
-            {" | Stock: "}
-            {product.stock_quantity}
-          </li>
-        ))}
-      </ul>
+              {suppliers.map((supplier) => (
+                <option key={supplier.id} value={supplier.id}>
+                  {supplier.name}
+                </option>
+              ))}
+            </select>
+          </div>
 
-      <ul>
-        {purchaseItems.map((item, index) => (
-          <li key={index}>
+          <div className="field-group" style={{ marginTop: "12px" }}>
+            <label className="field-label">Search products</label>
+            <input
+              className="field-input search-input"
+              type="text"
+              placeholder="Search Product"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+          </div>
 
-            {item.name} × 
-            <button onClick={() => decreaseQuantity(item.product)}>
-                -
+          <ul className="data-list" style={{ marginTop: "12px" }}>
+            {filteredProducts.map((product) => (
+              <li
+                key={product.id}
+                onClick={() => addItem(product)}
+                style={{ cursor: "pointer" }}
+              >
+                <div className="list-main">
+                  <div className="list-title">{product.name}</div>
+                  <div className="list-meta">${product.price} • Stock {product.stock_quantity}</div>
+                </div>
+                <span className="section-badge">Add</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div className="panel-card">
+          <div className="section-header">
+            <h2 className="section-title">Purchase Order</h2>
+            <span className="section-badge">{purchaseItems.length} items</span>
+          </div>
+
+          <ul className="data-list">
+            {purchaseItems.map((item, index) => (
+              <li key={index}>
+                <div className="list-main">
+                  <div className="list-title">{item.name}</div>
+                  <div className="list-meta">${item.unit_price}</div>
+                </div>
+                <div className="item-actions">
+                  <button className="btn btn-secondary" onClick={() => decreaseQuantity(item.product)}>
+                    -
+                  </button>
+                  <span className="quantity-pill">{item.quantity}</span>
+                  <button className="btn btn-secondary" onClick={() => increaseQuantity(item.product)}>
+                    +
+                  </button>
+                  <button className="btn btn-danger" onClick={() => removeItem(item.product)}>
+                    Remove
+                  </button>
+                </div>
+              </li>
+            ))}
+          </ul>
+
+          <div className="total-card" style={{ marginTop: "16px" }}>
+            <span>Total</span>
+            <span>${purchaseItems
+              .reduce(
+                (sum, item) => sum + item.quantity * item.unit_price,
+                0
+              )
+              .toFixed(2)}</span>
+          </div>
+
+          <div className="form-actions" style={{ marginTop: "16px" }}>
+            <button
+              className="btn btn-primary"
+              onClick={completePurchase}
+              disabled={
+                purchaseItems.length === 0 || selectedSupplier === ""
+              }
+            >
+              Complete Purchase
             </button>
-            {item.quantity}
-            <button onClick={() => increaseQuantity(item.product)}>
-                +
-            </button>
-             - ${item.unit_price}
-            <button onClick={() => removeItem(item.product)}>
-              Remove
-            </button>
-          </li>
-        ))}
-      </ul>
-
-      <h3>
-        Total: $
-        {purchaseItems
-          .reduce(
-            (sum, item) => sum + item.quantity * item.unit_price,
-            0
-          )
-          .toFixed(2)}
-      </h3>
-
-      <button
-        onClick={completePurchase}
-        disabled={
-          purchaseItems.length === 0 || selectedSupplier === ""
-        }
-      >
-        Complete Purchase
-      </button>
+          </div>
+        </div>
+      </div>
     </Layout>
   )
 

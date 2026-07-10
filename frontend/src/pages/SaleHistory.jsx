@@ -24,25 +24,38 @@ function SaleHistory(){
 
   return (
     <Layout>
-      {sales.toReversed().map((sale) => (
-        <div key={sale.created_at}>
-          <h3>Sale #{sale.id}</h3>
-          <ul>
-            {sale.sale_items?.map((item, index) => (
-              <li key={index}>
-                Product {item.product_name}
-                ×
-                {item.quantity}
-              </li>
-            ))}
-          </ul>
-
-          <p>Total: ${sale.total_amount}</p>
-
-          <p>{sale.created_at}</p>
+      <div className="page-header">
+        <div>
+          <h1 className="page-title">Sales History</h1>
+          <p className="page-subtitle">Review completed transactions and item breakdowns.</p>
         </div>
-      
-      ))}
+      </div>
+
+      <div className="panel-grid">
+        {sales.toReversed().map((sale) => (
+          <div className="panel-card" key={sale.created_at}>
+            <div className="section-header">
+              <h3 className="section-title">Sale #{sale.id}</h3>
+              <span className="section-badge">{sale.created_at}</span>
+            </div>
+            <ul className="data-list">
+              {sale.sale_items?.map((item, index) => (
+                <li key={index}>
+                  <div className="list-main">
+                    <div className="list-title">{item.product_name}</div>
+                    <div className="list-meta">Quantity {item.quantity}</div>
+                  </div>
+                </li>
+              ))}
+            </ul>
+
+            <div className="total-card" style={{ marginTop: "14px" }}>
+              <span>Total</span>
+              <span>${sale.total_amount}</span>
+            </div>
+          </div>
+        ))}
+      </div>
     </Layout>
   )
 }

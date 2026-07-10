@@ -24,30 +24,39 @@ function PurchasesHistory(){
 
   return (
     <Layout>
-      {purchases.toReversed().map((purchase) => (
-        <div key={purchase.created_at}>
-          <h3>Purchase #{purchase.id}</h3>
-          <h2>Supplier: {purchase.supplier}</h2>
-          <ul>
-            {purchase.purchase_items?.map((item, index) => (
-              <li key={index}>
-                Product {item.product_name}
-                ×
-                {item.quantity}
-                <br />
-                Unit Price : {item.unit_price}
-                <br />
-                Total : {item.line_total}
-              </li>
-            ))}
-          </ul>
-
-          <p>Total: ${purchase.total_amount}</p>
-
-          <p>{purchase.created_at}</p>
+      <div className="page-header">
+        <div>
+          <h1 className="page-title">Purchase History</h1>
+          <p className="page-subtitle">Track all recorded purchasing activity and supplier details.</p>
         </div>
-      
-      ))}
+      </div>
+
+      <div className="panel-grid">
+        {purchases.toReversed().map((purchase) => (
+          <div className="panel-card" key={purchase.created_at}>
+            <div className="section-header">
+              <h3 className="section-title">Purchase #{purchase.id}</h3>
+              <span className="section-badge">{purchase.created_at}</span>
+            </div>
+            <div className="list-meta" style={{ marginBottom: "10px" }}>Supplier: {purchase.supplier}</div>
+            <ul className="data-list">
+              {purchase.purchase_items?.map((item, index) => (
+                <li key={index}>
+                  <div className="list-main">
+                    <div className="list-title">{item.product_name}</div>
+                    <div className="list-meta">Qty {item.quantity} • Unit ${item.unit_price} • Total ${item.line_total}</div>
+                  </div>
+                </li>
+              ))}
+            </ul>
+
+            <div className="total-card" style={{ marginTop: "14px" }}>
+              <span>Total</span>
+              <span>${purchase.total_amount}</span>
+            </div>
+          </div>
+        ))}
+      </div>
     </Layout>
   )
 }

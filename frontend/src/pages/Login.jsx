@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import "../styles/page-styles.css";
 
 function Login() {
   const [formData, setFormData] = useState({
@@ -33,36 +34,47 @@ function Login() {
   }
 
   return (
-    <div>
-      <h1>Login</h1>
+    <div className="auth-shell">
+      <div className="auth-card">
+        <h1>Login</h1>
+        <p>Access your POS and inventory workspace.</p>
 
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          placeholder="Username"
-          value={formData.username}
-          onChange={(e) =>
-            setFormData({
-              ...formData,
-              username: e.target.value,
-            })
-          }
-        />
+        <form className="form-grid" onSubmit={handleSubmit}>
+          <div className="field-group">
+            <label className="field-label">Username</label>
+            <input
+              className="field-input"
+              type="text"
+              placeholder="Username"
+              value={formData.username}
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  username: e.target.value,
+                })
+              }
+            />
+          </div>
 
-        <input
-          type="password"
-          placeholder="Password"
-          value={formData.password}
-          onChange={(e) =>
-            setFormData({
-              ...formData,
-              password: e.target.value,
-            })
-          }
-        />
+          <div className="field-group">
+            <label className="field-label">Password</label>
+            <input
+              className="field-input"
+              type="password"
+              placeholder="Password"
+              value={formData.password}
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  password: e.target.value,
+                })
+              }
+            />
+          </div>
 
-        <button type="submit">Login</button>
-      </form>
+          <button className="btn btn-primary" type="submit">Login</button>
+        </form>
+      </div>
     </div>
   );
 }
