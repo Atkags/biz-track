@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import { authFetch } from "../utils/auth"
+import { authFetch } from "../utils/auth";
+import Layout from "../components/Layout";
 
 function Sales() {
   const [products, setProducts] = useState([]);
@@ -138,7 +139,7 @@ function removeItem(productId) {
 }
 
   return (
-    <div>
+    <Layout>
       <h1>Sales</h1>
 
       {error && <p style={{ color: "red" }}>{error}</p>}
@@ -171,7 +172,7 @@ function removeItem(productId) {
       <h2>Current Sale</h2>
 
         <ul>
-          {saleItems.map((item, index) => (
+          {saleItems.map((item) => (
             <li key={item.product}>
               <strong>{item.name}</strong>
 
@@ -197,7 +198,7 @@ function removeItem(productId) {
         <button onClick={completeSale}>
           Complete Sale
         </button>
-    </div>
+    </Layout>
   );
 }
 

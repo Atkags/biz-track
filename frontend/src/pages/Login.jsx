@@ -25,6 +25,7 @@ function Login() {
     }).then((data) => {
       localStorage.setItem("access", data.access);
       localStorage.setItem("refresh", data.refresh);
+      localStorage.setItem("role", data.role);
       navigate("/");
     }).catch((error) => {
       console.error(error);

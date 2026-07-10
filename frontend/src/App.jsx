@@ -20,7 +20,7 @@ function App(){
           </ProtectedRoute>
         } 
         />
-        <Route path="/purchases-history" element={
+        <Route path="/purchase-history" element={
           <ProtectedRoute>
             <PurchasesHistory />
           </ProtectedRoute>

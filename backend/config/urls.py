@@ -22,6 +22,7 @@ from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
 )
+from users.views import CustomTokenView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -29,7 +30,7 @@ urlpatterns = [
     path('api/', include('products.urls')),
     path('api/', include('sales.urls')),
     path('api/', include('dashboard.urls')),
-    path("api/login/", TokenObtainPairView.as_view()),
+    path("api/login/", CustomTokenView.as_view()),
     path("api/refresh/", TokenRefreshView.as_view()),
     path("api/", include("purchases.urls")),
 ]

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { authFetch } from "../utils/auth";
+import Layout from "../components/Layout";
 
 function Reports() {
   const [report, setReport] = useState(null);
@@ -19,7 +20,7 @@ function Reports() {
   }
 
   return (
-    <div>
+    <Layout>
       <h1>Reports</h1>
 
       <h2>Today's Sales</h2>
@@ -51,7 +52,7 @@ function Reports() {
         ))}
       </ul>
 
-    </div>
+    </Layout>
   );
 }
 

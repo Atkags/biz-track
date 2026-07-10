@@ -1,0 +1,36 @@
+.sidebar h2{
+    margin-bottom:40px;
+}
+
+.sidebar a{
+
+    padding:15px;
+
+    border-radius:10px;
+
+    margin-bottom:8px;
+
+    transition:.2s;
+}
+
+.sidebar a:hover{
+
+    background: rgb(146, 146, 206);
+
+}
+
+.sidebar button{
+
+    margin-top: auto;
+
+    padding:15px;
+
+    border:none;
+
+    background:#ef4444;
+
+    color:white;
+
+    border-radius:10px;
+
+}

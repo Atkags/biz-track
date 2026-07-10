@@ -1,0 +1,36 @@
+.layout{
+    display: flex;
+    min-height: 100vh;
+    padding: 20px;
+    gap: 20px;
+}
+
+.page{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+}
+
+main{
+    flex: 1;
+    padding:30px;
+    background: white;
+    margin-top: 20px;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    border-radius: 6px;
+}
+
+.content{
+    flex: 1;
+    border-radius: 6px;
+}
+
+.sidebar{
+    padding: 20px;
+    color:black;
+    display:flex;
+    flex-direction:column;
+    background: white;
+    border-radius:6px;
+}

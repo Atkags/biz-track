@@ -5,13 +5,13 @@ from sales.models import Sale, SaleItem
 from django.utils import timezone
 from django.db.models import Sum
 from sales.serializers import SaleSerializer
-from rest_framework.permissions import IsAuthenticated
+from users.permissions import IsAdminOrReadOnly, IsAdmin
 from datetime import date
 from django.db.models.functions import TruncMonth
 from purchases.models import Purchase
 
 class DashboardView(APIView):
-  permission_classes = [IsAuthenticated]
+  permission_classes = [IsAdminOrReadOnly]
   def get(self, request):
     
     products = Product.objects.count()
@@ -57,7 +57,7 @@ class DashboardView(APIView):
     })
   
 class ReportView(APIView):
-  permission_classe = [IsAuthenticated]
+  permission_classes = [IsAdmin]
 
   def get(self, request):
     today_sales = (

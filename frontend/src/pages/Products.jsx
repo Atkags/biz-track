@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import { authFetch } from "../utils/auth"
+import { authFetch } from "../utils/auth";
+import Layout from "../components/Layout";
 
 function Products(){
   const[products, setProducts] = useState([]);
@@ -34,7 +35,7 @@ function Products(){
     then((data) => {
       setProducts(data);
     })
-    .catch((err) => {
+    .catch(() => {
       setError("Couldnt connect to backend...");
     });
 
@@ -73,7 +74,7 @@ function Products(){
       }
       return response.json();
     })
-    .then(dat => {
+    .then(() => {
       fetchProducts();
       setFormData({
       name: "",
@@ -134,16 +135,16 @@ function Products(){
         throw new Error(`HTTP Error! Status: ${response.status}`);
       }
       return response.json();
-    }).then(dat => {
+    }).then(() => {
       fetchProducts();
       setEditingId(null);
-    }).catch(error => 
+    }).catch(() => 
       console.log("Error:", error)
     );
   }
   
   return(
-    <div>
+    <Layout>
         <form onSubmit={handleSubmit}>
 
           <label>
@@ -243,7 +244,7 @@ function Products(){
           </li>
         ))}
       </ul>
-    </div>
+    </Layout>
   );
 }
   

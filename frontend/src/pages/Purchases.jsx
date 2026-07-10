@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { authFetch } from "../utils/auth";
+import Layout from "../components/Layout";
 
 function Purchases() {
   const [products, setProducts] = useState([]);
@@ -133,7 +134,7 @@ function Purchases() {
   }
 
   return(
-    <div>
+    <Layout>
       <select
         value={selectedSupplier}
         onChange={(e) => setSelectedSupplier(e.target.value)}
@@ -208,7 +209,7 @@ function Purchases() {
       >
         Complete Purchase
       </button>
-    </div>
+    </Layout>
   )
 
 

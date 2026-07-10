@@ -1,5 +1,6 @@
 import {useState, useEffect} from "react";
-import { authFetch } from "../utils/auth"
+import { authFetch } from "../utils/auth";
+import Layout from "../components/Layout";
 
 function PurchasesHistory(){
   const [purchases, setPurchases] = useState([]);
@@ -22,7 +23,7 @@ function PurchasesHistory(){
   }
 
   return (
-    <div>
+    <Layout>
       {purchases.toReversed().map((purchase) => (
         <div key={purchase.created_at}>
           <h3>Purchase #{purchase.id}</h3>
@@ -47,7 +48,7 @@ function PurchasesHistory(){
         </div>
       
       ))}
-    </div>
+    </Layout>
   )
 }
 
